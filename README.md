@@ -1,31 +1,24 @@
-Adafruit Python DHT Sensor Library
+Local QT-Based UI -Rhea Cooper
 ==================================
+The first Project of ECEN 5053-002 : Embedded Interface Design involves developing a GUI using QT on RaspberryPi to help retrieve humidity and temperature values from the DHT22 sensor 
 
-Python library to read the DHT series of humidity and temperature sensors on a Raspberry Pi or Beaglebone Black.
 
-Designed specifically to work with the Adafruit DHT series sensors ----> https://www.adafruit.com/products/385
+Installation Instructions
+==================================
+1.Install all the python libraries.
+2.Install PyQt4
+3.Install matplotlib
+4.Connect the DHT22 to GPIO4 of the RaspberryPi with a 4.7k or 10k resistor
+5.In the example folder run : sudo ./AdafruitDHT.py 22 4
 
-Currently the library is only tested with Python 2.6/2.7.
+Project Work
+==================================
+Temperature and Humidity values are displayed on the GUI when the user requests them along with the timestamp. A message is displayed if no values are available.
 
-For all platforms (Raspberry Pi and Beaglebone Black) make sure your system is able to compile Python extensions.  On Raspbian or Beaglebone Black's Debian/Ubuntu image you can ensure your system is ready by executing:
-
-````
-sudo apt-get update
-sudo apt-get install build-essential python-dev
-````
-
-Install the library by downloading with the download link on the right, unzipping the archive, and executing:
-
-````
-sudo python setup.py install
-````
-You can ommit the sudo if you use raspberry pi.
-
-See example of usage in the examples folder.
-
-Adafruit invests time and resources providing this open source code, please support Adafruit and open-source hardware by purchasing products from Adafruit!
-
-Written by Tony DiCola for Adafruit Industries.
-
-MIT license, all text above must be included in any redistribution
-# Project1-EID
+Project Additions:
+==================================
+1.A message box shows up with a warning if the temperature rises above a pre-defined threshold
+2.Lists get populated simultaneously when the user requests temperature and humidity values which are displayed on the GUI in a dialog box when a specified number of iterations are over.
+3.The average of humidity and temperature values in the list is displayed in a dialog box when the user presses the corresponding pushbutton.
+4.The number of iterations in the loop or the number values retrieved by the sensor can be changed by the user with the help of a drop-down menu (QComboBox)
+5.Temperature and humidity plots are displayed when the corresponding push buttons are clicked when the corresponding push buttons are clicked.

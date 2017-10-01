@@ -1,56 +1,33 @@
 #!/usr/bin/python
-#Reference:https://github.com/adafruit/Adafruit_Python_DHT and https://www.tutorialspoint.com/pyqt/pyqt_basic_widgets.htm
 # Copyright (c) 2014 Adafruit Industries
-# Author: Tony DiCola
+# Author: Tony Di
 
 
-import sys 
-import time 
-import Adafruit_DHT 
-import datetime 
-import PyQt4 
-from PyQt4 import QtCore, QtGui,uic 
-from A import Ui_MainWindow        
-#importing required modules to plot graph
-import matplotlib.pyplot as plt
-from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
+
 from matplotlib.backends.backend_qt4agg import NavigationToolbar2QTAgg as NavigationToolbar
 
 class MyMainWindow(QtGui.QMainWindow):
-    """main class that contains all the methods required for the GUI""" 
- 
+   """Class for the main window of the GUI. All the methods required are here"""
     def __init__(self, parent=None):
-        """constructor of class"""
 	QtGui.QWidget.__init__(self, parent)
 	self.ui = Ui_MainWindow()
 	self.ui.setupUi(self)
-	self.ui.showhum_button.clicked.connect(self.Start)  #connecting the push buttons to methods
-	self.ui.Humgraph_button.clicked.connect(self.HumGraph)
-	self.ui.Tempgraph_button.clicked.connect(self.TempGraph)
+	self.ui.showhum_button.clicked.connect(self.Start)
+	self.ui.HumGraph_button.clicked.connect(self.HumGraph)
+	self.ui.TempGraph_button.clicked.connect(self.TempGraph)
 	self.ui.close_button.clicked.connect(self.close)
 	self.ui.showaverage_button.clicked.connect(self.ShowAverage)
 	self.ui.figure=plt.figure(figsize=(15,5))
 	self.ui.canvas=FigureCanvas(self.ui.figure)
 	self.ui.gridLayout.addWidget(self.ui.canvas,1,0,1,2)
-  	self.ui.cb.currentIndexChanged.connect(self.Select)  
-        self.ui.iterations = 5     #default number of iterations 
-   
-    def Select(self,item):
-	"""method to update the number of iterations with the selected value from the combo box"""
-        if item == 0:
-	   self.ui.iterations=5
-	if item == 1:
-	   self.ui.iterations=10
-	if item == 2:
-	   self.ui.iterations=15
-	
+            
     def ShowAverage(self):
-        """Method to display average of the temp and humidity lists in a dialog box that pops up when the button is pressed"""
-	averagehum=sum(a)/len(a)
+        """method to calculate the average of temperature and humidity values that are stored in 2 lists and display it in a dialog box that pops up when the button is clicked """ 
+	averagehum=sum(a)/len(a)      
 	averagetemp=sum(b)/len(b)
 	showavghum="Average Humidity is " + str(averagehum)
 	showavgtemp="\nAverage Temperature is " + str(averagetemp)
-	d=QtGui.QDialog()
+	d=QtGui.QDialog()                                    
 	d.setWindowTitle("Average")
 	l2=QtGui.QLabel(d)
 	l2.setText(showavghum + showavgtemp)
@@ -58,30 +35,31 @@ class MyMainWindow(QtGui.QMainWindow):
 	d.exec_()             
         
     def TempGraph(self):
-        """graph plotting Referenced from a youtube video :https://www.youtube.com/watch?v=Wk7CECwebMc"""
- 	plt.cla()
+        """method to plot the temperature graph from the list """
+	plt.cla()
 	ax=self.ui.figure.add_subplot(111)
-	x=[i for i in range(len(b))]  #iterations on x axis
-	y=b                            #temperature values on y axis
+	x=[i for i in range(l)] #x axis will have the iterations
+	y=b                     #y axis will have the list of temperature values
 	ax.plot(x,y,'b.-')
 	ax.set_title('Temperature')
 	self.ui.canvas.draw()
 
     def HumGraph(self):
-        """graph plotting Referenced from a youtube video :https://www.youtube.com/watch?v=Wk7CECwebMc"""
+	"""method to plot the humidity graph from the list """
         plt.cla()
         ax=self.ui.figure.add_subplot(111)
-        x=[i for i in range(len(a))] 
-        y=a
+        x=[i for i in range(l)] #x axis will have the iterations
+        y=a                     #y axis will have the list of temperature values
         ax.plot(x,y,'b.-')
         ax.set_title('Humidity')
         self.ui.canvas.draw()
     	
     def Start(self):
-        """this method gets the temp, humidity values one by one, displays them along with timestamp and also populates a list that pops up when a predefined number of iterations is done"""
+	"""main method that gets each temp, humidity value and displays it along with the timestamp and at the end of a predefined number of iteration, it displays the entire list"
 	listWidget=QtGui.QListWidget()
 	listWidget.setWindowTitle("List of Values")
-	for i in range(self.ui.iterations):
+	for i in range(l):     #l is the predefined number of iterations
+	#while(1): 
             humidity,temperature = Adafruit_DHT.read_retry(sensor, pin)
 	    a.append(humidity)
 	    b.append(temperature)
@@ -93,8 +71,8 @@ class MyMainWindow(QtGui.QMainWindow):
 	       self.ui.showhum_window.setText(showtemp + showhum + showtime)
 	       item=QtGui.QListWidgetItem("Temp: %f , Humidity: %f " % (temperature,humidity))
                listWidget.addItem(item)
- # a message box with a warning acts as an alarm when temperature crosses a predefined threshold"""
-	       if temperature > threshold: 
+
+	       if temperature > threshold:  #if the temperature is above a predefined threshold value, a message box pops up with a warning
                   w=QtGui.QWidget()
                   result=QtGui.QMessageBox.warning(w, "Message", "Temperature too high")
                else:
@@ -102,11 +80,11 @@ class MyMainWindow(QtGui.QMainWindow):
             else:
                shownotemp="Sorry, temperature , humidity unavailable . Try again ";
                self.ui.showhum_window.setText(shownotemp)
-            time.sleep(2) 
+            time.sleep(2)          #2 second delay to enable change of temperature and humidity values
 	listWidget.show()
-	listWidget.exec_()
+	listWidget._exec()
 
-#Reference: https://github.com/adafruit/Adafruit_Python_DHT
+#Reference : https://github.com/adafruit/Adafruit_Python_DHT
 # Parse command line parameters.
 sensor_args = { '11': Adafruit_DHT.DHT11,
                 '22': Adafruit_DHT.DHT22,
@@ -119,13 +97,16 @@ else:
     print('example: sudo ./Adafruit_DHT.py 2302 4 - Read from an AM2302 connected to GPIO #4')
     sys.exit(1)
 
-a=[]     #humidity list
-b=[]     #temperature list
-threshold=30       #threshold for temperature
+a=[] #the list for humidity values
+b=[] #the list for temperature values
+l=7  #setting the number of iterations
+threshold=20  #setting the threshold temperature
 
-#instantiating the above class
+
+#instantiating the MyMainWindow class
 app=QtGui.QApplication(sys.argv)
 myapp=MyMainWindow()
 myapp.show()
 sys.exit(app.exec_())
+
 

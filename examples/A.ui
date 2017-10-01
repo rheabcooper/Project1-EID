@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>578</width>
+    <width>601</width>
     <height>460</height>
    </rect>
   </property>
@@ -35,17 +35,17 @@
     <property name="geometry">
      <rect>
       <x>280</x>
-      <y>10</y>
+      <y>0</y>
       <width>281</width>
-      <height>81</height>
+      <height>71</height>
      </rect>
     </property>
    </widget>
    <widget class="QPushButton" name="close_button">
     <property name="geometry">
      <rect>
-      <x>340</x>
-      <y>130</y>
+      <x>200</x>
+      <y>90</y>
       <width>81</width>
       <height>21</height>
      </rect>
@@ -57,7 +57,7 @@
    <widget class="QPushButton" name="showaverage_button">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>10</x>
       <y>80</y>
       <width>181</width>
       <height>31</height>
@@ -71,14 +71,14 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>170</y>
+      <y>210</y>
       <width>541</width>
-      <height>221</height>
+      <height>181</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout"/>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="Humgraph_button">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -91,10 +91,10 @@
      <string>Humidity Graph</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_2">
+   <widget class="QPushButton" name="Tempgraph_button">
     <property name="geometry">
      <rect>
-      <x>170</x>
+      <x>150</x>
       <y>130</y>
       <width>151</width>
       <height>31</height>
@@ -104,13 +104,51 @@
      <string>Temperature Graph</string>
     </property>
    </widget>
+   <widget class="QComboBox" name="cb">
+    <property name="geometry">
+     <rect>
+      <x>340</x>
+      <y>130</y>
+      <width>85</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>5</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>10</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>15</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>340</x>
+      <y>80</y>
+      <width>211</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Change number of Iterations:</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>578</width>
+     <width>601</width>
      <height>27</height>
     </rect>
    </property>

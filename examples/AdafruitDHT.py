@@ -1,29 +1,100 @@
 #!/usr/bin/python
+#Reference:https://github.com/adafruit/Adafruit_Python_DHT
 # Copyright (c) 2014 Adafruit Industries
 # Author: Tony DiCola
 
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions:
 
-# The above copyright notice and this permission notice shall be included in all
-# copies or substantial portions of the Software.
+import sys 
+import time 
+import Adafruit_DHT 
+import datetime 
+import PyQt4 
+from PyQt4 import QtCore, QtGui,uic 
+from A import Ui_MainWindow        
+#importing required modules to plot graph
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.backends.backend_qt4agg import NavigationToolbar2QTAgg as NavigationToolbar
 
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-# SOFTWARE.
-import sys
+class MyMainWindow(QtGui.QMainWindow):
+ """main class for the GUI"""
+    def __init__(self, parent=None):
+	QtGui.QWidget.__init__(self, parent)
+	self.ui = Ui_MainWindow()
+	self.ui.setupUi(self)
+	self.ui.showhum_button.clicked.connect(self.Start)
+	self.ui.HumGraph_button.clicked.connect(self.HumGraph)
+	self.ui.TempGraph_button.clicked.connect(self.TempGraph)
+	self.ui.close_button.clicked.connect(self.close)
+	self.ui.showaverage_button.clicked.connect(self.ShowAverage)
+	self.ui.figure=plt.figure(figsize=(15,5))
+	self.ui.canvas=FigureCanvas(self.ui.figure)
+	self.ui.gridLayout.addWidget(self.ui.canvas,1,0,1,2)
+            
+    def ShowAverage(self):
+      """Method to display average of the temp and humidity lists in a dialog box that pops up when the button is pressed"""
+	averagehum=sum(a)/len(a)
+	averagetemp=sum(b)/len(b)
+	showavghum="Average Humidity is " + str(averagehum)
+	showavgtemp="\nAverage Temperature is " + str(averagetemp)
+	d=QtGui.QDialog()
+	d.setWindowTitle("Average")
+	l2=QtGui.QLabel(d)
+	l2.setText(showavghum + showavgtemp)
+	l2.show()
+	d.exec_()             
+        
+    def TempGraph(self):
+      """graph plotting Referenced from a youtube video :https://www.youtube.com/watch?v=Wk7CECwebMc"""
+ 
+	plt.cla()
+	ax=self.ui.figure.add_subplot(111)
+	x=[i for i in range(l)]  #iterations on x axis
+	y=b                      #temperature values on y axis
+	ax.plot(x,y,'b.-')
+	ax.set_title('Temperature')
+	self.ui.canvas.draw()
 
-import Adafruit_DHT
-
-
+    def HumGraph(self):
+      """graph plotting Referenced from a youtube video :https://www.youtube.com/watch?v=Wk7CECwebMc"""
+        plt.cla()
+        ax=self.ui.figure.add_subplot(111)
+        x=[i for i in range(l)] 
+        y=a
+        ax.plot(x,y,'b.-')
+        ax.set_title('Humidity')
+        self.ui.canvas.draw()
+    	
+    def Start(self):
+        """this method gets the temp, humidity values one by one, displays them along with timestamp and also populates a list that pops up when a predefined number of iterations is done"""
+	listWidget=QtGui.QListWidget()
+	listWidget.setWindowTitle("List of Values")
+	for i in range(l):
+	#while(1): 
+            humidity,temperature = Adafruit_DHT.read_retry(sensor, pin)
+	    a.append(humidity)
+	    b.append(temperature)
+	    if temperature and humidity is not None :
+	       showtemp="Temperature is in degree Celsius is " + str(temperature) 
+	       showhum="\nHumidity is : " + str(humidity)
+	       now = datetime.datetime.now() 
+	       showtime="\nCurrent time is : " + now.strftime("%Y-%m-%d %H:%M:%S") 
+	       self.ui.showhum_window.setText(showtemp + showhum + showtime)
+	       item=QtGui.QListWidgetItem("Temp: %f , Humidity: %f " % (temperature,humidity))
+               listWidget.addItem(item)
+ # a message box with a warning acts as an alarm when temperature crosses a predefined threshold"""
+	       if temperature > threshold: 
+                  w=QtGui.QWidget()
+                  result=QtGui.QMessageBox.warning(w, "Message", "Temperature too high")
+               else:
+		  self.ui.statusbar.showMessage("Temperature optimal",1000000)
+            else:
+               shownotemp="Sorry, temperature , humidity unavailable . Try again ";
+               self.ui.showhum_window.setText(shownotemp)
+            time.sleep(2) 
+	listWidget.show()
+	listWidget._exec()
+#Reference: https://github.com/adafruit/Adafruit_Python_DHT
 # Parse command line parameters.
 sensor_args = { '11': Adafruit_DHT.DHT11,
                 '22': Adafruit_DHT.DHT22,
@@ -36,19 +107,14 @@ else:
     print('example: sudo ./Adafruit_DHT.py 2302 4 - Read from an AM2302 connected to GPIO #4')
     sys.exit(1)
 
-# Try to grab a sensor reading.  Use the read_retry method which will retry up
-# to 15 times to get a sensor reading (waiting 2 seconds between each retry).
-humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
+a=[]     #humidity list
+b=[]     #temperature list
+l=7      #predefined number of iterations
+threshold=20       #threshold for temperature
 
-# Un-comment the line below to convert the temperature to Fahrenheit.
-# temperature = temperature * 9/5.0 + 32
+#instantiating the above class
+app=QtGui.QApplication(sys.argv)
+myapp=MyMainWindow()
+myapp.show()
+sys.exit(app.exec_())
 
-# Note that sometimes you won't get a reading and
-# the results will be null (because Linux can't
-# guarantee the timing of calls to read the sensor).
-# If this happens try again!
-if humidity is not None and temperature is not None:
-    print('Temp={0:0.1f}*  Humidity={1:0.1f}%'.format(temperature, humidity))
-else:
-    print('Failed to get reading. Try again!')
-    sys.exit(1)

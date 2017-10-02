@@ -1,7 +1,6 @@
 #!/usr/bin/python
 #Reference:https://github.com/adafruit/Adafruit_Python_DHT and https://www.tutorialspoint.com/pyqt/pyqt_basic_widgets.htm
-# Copyright (c) 2014 Adafruit Industries
-# Author: Tony DiCola
+
 
 
 import sys 
@@ -71,8 +70,8 @@ class MyMainWindow(QtGui.QMainWindow):
         """graph plotting Referenced from a youtube video :https://www.youtube.com/watch?v=Wk7CECwebMc"""
         plt.cla()
         ax=self.ui.figure.add_subplot(111)
-        x=[i for i in range(len(a))] 
-        y=a
+        x=[i for i in range(len(a))]           #iterations on x axis
+        y=a					#humidity list values on y axis
         ax.plot(x,y,'b.-')
         ax.set_title('Humidity')
         self.ui.canvas.draw()
@@ -99,7 +98,7 @@ class MyMainWindow(QtGui.QMainWindow):
                   result=QtGui.QMessageBox.warning(w, "Message", "Temperature too high")
                else:
 		  self.ui.statusbar.showMessage("Temperature optimal",1000000)
-            else:
+            else:      #handling not receiving data
                shownotemp="Sorry, temperature , humidity unavailable . Try again ";
                self.ui.showhum_window.setText(shownotemp)
             time.sleep(2) 

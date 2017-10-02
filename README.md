@@ -15,15 +15,24 @@ sudo apt-get update
 sudo apt-get install build-essential python-dev python-openssl
 sudo python setup.py install
 `````````````````````````````````````````````````````````````             
-2.Install QT4 designer : sudo apt-get install qt4-designer
+2.Install QT4 designer :
+```````````````````````````````````````````````````````````
+sudo apt-get install qt4-designer
+```````````````````````````````````````````````````````````
+3.Install PyQt4 : 
+```````````````````````````````````````````````````````````
+sudo apt-get install pyqt4
+```````````````````````````````````````````````````````````
+4.Install matplotlib : 
+```````````````````````````````````````````````````````````
+sudo apt-get install python-matplotlib
+```````````````````````````````````````````````````````````
+5.Connect the DHT22 to GPIO4 of the RaspberryPi with a 4.7k or 10k resistor
 
-2.Install PyQt4 : sudo apt-get install pyqt4
-
-3.Install matplotlib : sudo apt-get install python-matplotlib
-
-4.Connect the DHT22 to GPIO4 of the RaspberryPi with a 4.7k or 10k resistor
-
-5.In the example folder run : sudo ./AdafruitDHT.py 22 4
+6.In the example folder run :
+```````````````````````````````````````````````````````````
+sudo ./AdafruitDHT.py 22 4
+```````````````````````````````````````````````````````````
 
 
 Project Work
@@ -33,21 +42,19 @@ Temperature and Humidity values are displayed on the GUI when the user requests 
 
 
 Project Additions:
-
 ==================================
-1.A message box shows up with a warning if the temperature rises above a pre-defined threshold
+1.A message box shows up with a warning if the temperature rises above a pre-defined threshold.
 
-2.Lists get populated simultaneously when the user requests temperature and humidity values which are displayed on the GUI in a dialog box when a specified number of iterations are over.
+2.Lists get populated simultaneously when the user requests temperature and humidity values. The collection of values is displayed on the GUI in a dialog box when a specified number of iterations are over.
 
 3.The average of humidity and temperature values in the list is displayed in a dialog box when the user presses the corresponding pushbutton.
 
-4.The number of iterations in the loop or the number values retrieved by the sensor can be changed by the user with the help of a drop-down menu (QComboBox)
+4.The number of iterations in the loop or the number values retrieved by the sensor can be changed by the user with the help of a drop-down menu (QComboBox).
 
-5.Temperature and humidity plots are displayed when the corresponding push buttons are clicked .
+5.Temperature and humidity plots are displayed when the corresponding push buttons are clicked.
 
 
 References
-
 ==================================
 1.https://github.com/adafruit/Adafruit_Python_DHT.git
 2.https://www.tutorialspoint.com/pyqt/pyqt_basic_widgets.htm

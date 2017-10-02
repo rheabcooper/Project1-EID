@@ -8,7 +8,7 @@ Author: Rhea Cooper
 Date: 10/1/2017
 
 Installation Instructions
-==================================
+--------------------------------
 1.Install all the python libraries and dependencies :
 ``````````````````````````````````````````````````````````` 
 sudo apt-get update
@@ -36,13 +36,13 @@ sudo ./AdafruitDHT.py 22 4
 
 
 Project Work
-==================================
+---------------------------------
 
 Temperature and Humidity values are displayed on the GUI when the user requests them along with the timestamp. A message is displayed if no values are available.
 
 
 Project Additions:
-==================================
+---------------------------------
 1.A message box shows up with a warning if the temperature rises above a pre-defined threshold.
 
 2.Lists get populated simultaneously when the user requests temperature and humidity values. The collection of values is displayed on the GUI in a dialog box when a specified number of iterations are over.
@@ -55,7 +55,7 @@ Project Additions:
 
 
 References
-==================================
+-------------------------------------------------
 1.https://github.com/adafruit/Adafruit_Python_DHT.git
 
 2.https://www.tutorialspoint.com/pyqt/pyqt_basic_widgets.htm

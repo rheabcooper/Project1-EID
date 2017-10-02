@@ -1,15 +1,25 @@
 Local QT-Based UI -Rhea Cooper
 ==================================
-The first Project of ECEN 5053-002 : Embedded Interface Design involves developing a GUI using QT on RaspberryPi to help retrieve humidity and temperature values from the DHT22 sensor 
+Repository for the first Project of ECEN 5053-002 : Embedded Interface Design which involves developing a prototype of a standalone temperature monitoring device with a local user-interface (QT).
+QT is used on RaspberryPi to help retrieve humidity and temperature values from the DHT22 sensor.  
 
+Author: Rhea Cooper
+
+Date: 10/1/2017
 
 Installation Instructions
 ==================================
-1.Install all the python libraries.              
+1.Install all the python libraries and dependencies :
+``````````````````````````````````````````````````````````` 
+sudo apt-get update
+sudo apt-get install build-essential python-dev python-openssl
+sudo python setup.py install
+`````````````````````````````````````````````````````````````             
+2.Install QT4 designer : sudo apt-get install qt4-designer
 
-2.Install PyQt4
+2.Install PyQt4 : sudo apt-get install pyqt4
 
-3.Install matplotlib
+3.Install matplotlib : sudo apt-get install python-matplotlib
 
 4.Connect the DHT22 to GPIO4 of the RaspberryPi with a 4.7k or 10k resistor
 
@@ -33,4 +43,14 @@ Project Additions:
 
 4.The number of iterations in the loop or the number values retrieved by the sensor can be changed by the user with the help of a drop-down menu (QComboBox)
 
-5.Temperature and humidity plots are displayed when the corresponding push buttons are clicked when the corresponding push buttons are clicked.
+5.Temperature and humidity plots are displayed when the corresponding push buttons are clicked .
+
+
+References
+
+==================================
+1.https://github.com/adafruit/Adafruit_Python_DHT.git
+2.https://www.tutorialspoint.com/pyqt/pyqt_basic_widgets.htm
+3.https://pythonspot.com/en/pyqt4-gui-tutorial/
+4.http://pythonforengineers.com/your-first-gui-app-with-python-and-pyqt/
+5.https://learn.adafruit.com/dht-humidity-sensing-on-raspberry-pi-with-gdocs-logging/overview 
